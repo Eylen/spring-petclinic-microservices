@@ -7,7 +7,7 @@ pipeline {
       steps {
         sh 'mvn clean package'
         junit '**/target/surefire-reports/TEST-*.xml'
-        archiveArtifacts(artifacts: 'target/**/*.war', onlyIfSuccessful: true, fingerprint: true)
+        archiveArtifacts(artifacts: 'target/**/*.jar', onlyIfSuccessful: true, fingerprint: true)
       }
     }
 
