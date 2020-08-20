@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'mvn -o clean package'
+        sh 'mvn clean package'
         junit '**/target/surefire-reports/TEST-*.xml'
         archiveArtifacts(artifacts: '**/*.jar', onlyIfSuccessful: true, fingerprint: true)
       }
