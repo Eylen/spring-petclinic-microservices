@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'mvn -f spring-petclinic-api-gateway/pom.xml clean package'
+        sh 'mvn clean package'
         junit '**/target/surefire-reports/TEST-*.xml'
         archiveArtifacts(artifacts: '**/*.jar', onlyIfSuccessful: true, fingerprint: true)
       }
