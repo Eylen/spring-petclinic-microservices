@@ -1,9 +1,5 @@
-FROM node:11-alpine AS builder
-COPY . ./angular-example-app
-WORKDIR /angular-example-app
-RUN npm install
-RUN npm run build:prod:en
-
-FROM nginx:1-alpine
-COPY --from=builder /angular-example-app/dist/browser/ /usr/share/nginx/html
-EXPOSE 80
+FROM maven:3.6.3-jdk-8
+COPY target/spring-petclinic-api-gateway.jar /tmp/app
+WORKDIR /tmp/app
+RUN java -jar spring-petclinic-api-gateway-2.3.2.jar
+EXPOSE 8080
