@@ -13,6 +13,7 @@ pipeline {
           bat 'F:\\1.DevOps\\2020\\sonar-scanner-3.2.0.1227-windows\\bin\\sonar-scanner.bat -Dsonar.projectVersion=1.0 -Dsonar.projectKey=sample-springboot-app -Dsonar.java.binaries=. -Dsonar.sources=spring-petclinic-admin-server/src/main/java/org/springframework/samples/petclinic/admin,spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api'
         }
 
+        waitForQualityGate(abortPipeline: true, credentialsId: 'SonarToken', webhookSecretId: 'SonarWebHook')
       }
     }
 
