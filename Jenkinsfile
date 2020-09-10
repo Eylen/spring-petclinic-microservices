@@ -1,6 +1,21 @@
 pipeline {
   agent any
   stages {
+    stage('UnitTests & Coverage') {
+      agent {
+        dockerfile {
+          filename 'Dockerfile'
+          args '--volume "$HOME"/.m2:/root/.m2'
+        }
+
+      }
+      steps {
+        sh 'mvn clean test'
+        junit '**/target/surefire-reports/TEST-*.xml'
+        jacoco(changeBuildStatus: true, maximumLineCoverage: '55', minimumLineCoverage: '55', runAlways: true)
+      }
+    }
+
     stage('Static Code Analysis') {
       agent {
         node {
@@ -26,9 +41,7 @@ pipeline {
 
       }
       steps {
-        sh 'mvn clean package'
-        junit '**/target/surefire-reports/TEST-*.xml'
-        jacoco(changeBuildStatus: true, maximumLineCoverage: '55', minimumLineCoverage: '55', runAlways: true)
+        sh 'mvn clean package -Dmaven.test.skip=true'
         archiveArtifacts(artifacts: '**/*.jar', onlyIfSuccessful: true, fingerprint: true)
       }
     }
